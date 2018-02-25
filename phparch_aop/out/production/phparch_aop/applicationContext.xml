@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+    <!--1.目标对象-->
+    <bean id="peopleService" class="org.phparch.service.PeopleService"/>
+    <!--2.切入对象-->
+    <bean id="aspect" class="org.phparch.aspect.Aspect"/>
+    <!--3.切面-->
+    <aop:config>
+        <aop:aspect ref="aspect">
+            <!--通知-->
+            <!--<aop:before method="log" pointcut-ref="pt"/>-->
+
+            <aop:after method="after" pointcut-ref="pt"/>
+            <aop:around method="around" pointcut-ref="pt"/>
+            <!--切入点-->
+            <aop:pointcut expression="execution(public * org.phparch.service.PeopleService.*())" id="pt"/>
+        </aop:aspect>
+    </aop:config>
+</beans>
