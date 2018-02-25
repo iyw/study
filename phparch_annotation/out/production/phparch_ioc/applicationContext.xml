@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <bean name="customerDao" class="org.phparch.dao.CustomerDaoImpl" init-method="init"
+          destroy-method="destory">
+    </bean>
+    <bean name="c1" class="org.phparch.dao.CustomerDaoImpl" init-method="init"
+          destroy-method="destory">
+        <property name="name" value="mike3"/>
+    </bean>
+    <bean name="c2" class="org.phparch.dao.CustomerDaoImpl" init-method="init"
+          destroy-method="destory">
+        <property name="name" value="mike1"/>
+    </bean>
+    <bean name="c3" class="org.phparch.dao.CustomerDaoImpl" init-method="init"
+          destroy-method="destory">
+        <property name="name" value="mike2"/>
+    </bean>
+    <!--1.构造方法注入-->
+    <!--<bean name="customerService" class="org.phparch.service.CustomerService">
+        <constructor-arg index="0" ref="customerDao"/>
+    </bean>-->
+
+    <!--2.setter方法注入-->
+    <bean name="customerService" class="org.phparch.service.CustomerService">
+        <!--1.注入javaBean对象-->
+        <property name="customerDao" ref="customerDao"/>
+        <!--2.注入字符串-->
+        <property name="name" value="mike"/>
+        <!--3.注入集合list-->
+        <property name="customerDaoList">
+            <list>
+                <ref bean="c1"/>
+                <ref bean="c2"/>
+                <ref bean="c3"/>
+            </list>
+        </property>
+        <!--4.注入数组-->
+        <property name="customerArray">
+            <array>
+                <ref bean="c1"/>
+                <ref bean="c2"/>
+                <ref bean="c3"/>
+            </array>
+        </property>
+        <!--5.set注入-->
+        <property name="customerDaoSet">
+            <set>
+                <ref bean="c1"/>
+                <ref bean="c2"/>
+                <ref bean="c3"/>
+            </set>
+        </property>
+        <!--6.map注入-->
+        <property name="customerDaoMap">
+            <map>
+                <entry key="1" value-ref="c1"/>
+                <entry key="2" value-ref="c2"/>
+                <entry key="3" value-ref="c3"/>
+            </map>
+        </property>
+
+        <!--7.properties 注入-->
+        <property name="properties">
+            <props>
+                <prop key="one">第一</prop>
+                <prop key="two">第二</prop>
+            </props>
+        </property>
+    </bean>
+
+    <!--3.p名称空间-->
+    <!--<bean name="customerService" class="org.phparch.service.CustomerService" p:customerDao-ref="customerDao"/>-->
+
+    <!--4.SpEL表达式-->
+    <!--<bean id="customerService" class="org.phparch.service.CustomerService">
+        <property name="customerDao" value="#{customerDao}"/>
+        <property name="name" value="#{'tanyawen'}"/>
+    </bean>-->
+</beans>
